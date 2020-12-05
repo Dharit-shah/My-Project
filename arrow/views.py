@@ -65,12 +65,6 @@ def addUser(request):
 
 
 def showUsers(request):
-    # if request.user.is_authenticated:
-    #     users = User.objects.all()
-    #     return render(request, 'arrow/showUsers.html', {'users': users})
-    # else:
-    #     return redirect('/')
-
     if request.user.is_authenticated:
         sort = request.GET.get('sort', '')
         desc = request.GET.get('desc', False)
