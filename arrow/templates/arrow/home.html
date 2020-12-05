@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <br/>
+    <br/>
+    <h1 align="center">Welcome To Our Website!!</h1>
+{% else %}
+    <br/>
+    <br/>
+    <h1 align="center">Login in order to get full Access!!</h1>
+{% endif %}
+
+{% endblock content %}

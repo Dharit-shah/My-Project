@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n  static %}
+
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+         <div class="container">
+            <br>
+    <div class="form-group row">
+    <label class="col-sm-1 col-form-label"></label>
+    <div class="col-sm-4">
+    <h3>Sign Up</h3>
+    </div>
+  </div>
+    {% for field in form %}
+        <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% for error in field.errors %}
+        <p style="color: red">{{ error }}</p>
+        {% endfor %}
+        </p>
+    {% endfor %}
+             <br/>
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label"></label>
+                <div class="col-sm-4">
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+                </div>
+            </div>
+              <br/>
+            <br/>
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-label"></label>
+            <div class="col-sm-4">
+                Already a User? <a href="/login/"> Log In </a>
+            </div>
+        </div>
+  </div>
+</form>
+{% endblock content %}

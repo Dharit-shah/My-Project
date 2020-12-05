@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load i18n  static %}
+
+
+{% block content %}
+        <form method="POST" class="post-form" action="/updateUser/{{user.id}}">
+            {% csrf_token %}
+            <div class="container">
+                <br>
+                <div class="form-group row">
+                    <label class="col-sm-1 col-form-label"></label>
+                    <div class="col-sm-4">
+                        <h3>Update Details</h3>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">First Name:</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="First_Name" id="id_First_Name" required maxlength="100" value="{{ user.First_Name }}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Last Name:</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="Last_Name" id="id_Last_Name" required maxlength="100" value="{{ user.Last_Name }}" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Email:</label>
+                    <div class="col-sm-4">
+                        <input type="email" name="Email" id="id_Email" required maxlength="254" value="{{ user.Email }}" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Contact:</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="Contact" id="id_Contact" required maxlength="10" value="{{ user.Contact }}" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-1 col-form-label"></label>
+                    <div class="col-sm-4">
+                        <button type="submit" class="btn btn-success">Update</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+{% endblock content %}

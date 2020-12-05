@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load i18n  static %}
+
+
+{% block content %}
+
+<div id="replaceable-content" class="col-6">
+    <table class="table table-striped table-bordered table-sm">
+        <thead class="thead-dark">
+        <tr>
+            <!--        First Name    -->
+            {% if desc %}
+                {% if q %}
+                    <th><a href="/showUsers/?q={{q}}">First Name</a></th>
+                {% else %}
+                    <th><a href="/showUsers/?sort=First_Name">First Name</a></th>
+                {% endif %}
+            {% else %}
+                {% if q %}
+                    <th><a href="/showUsers/?desc=true&q={{q}}">First Name</a></th>
+                {% else %}
+                    <th><a href="/showUsers/?desc=true&sort=First_Name">First Name</a></th>
+                {% endif %}
+            {% endif %}
+
+            <!--        Last Name    -->
+            {% if desc %}
+                {% if q %}
+                    <th><a href="/showUsers/?q={{q}}">Last Name</a></th>
+                {% else %}
+                    <th><a href="/showUsers/?sort=Last_Name">Last Name</a></th>
+                {% endif %}
+            {% else %}
+                {% if q %}
+                    <th><a href="/showUsers/?desc=true&q={{q}}">Last Name</a></th>
+                {% else %}
+                    <th><a href="/showUsers/?desc=true&sort=Last_Name">Last Name</a></th>
+                {% endif %}
+            {% endif %}
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Products</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        </thead>
+        <!--        Table Body      -->
+        <tbody>
+        {% for user in users %}
+        <tr id="user-{{ user.id }}">
+            <td>{{ user.First_Name }}</td>
+            <td>{{ user.Last_Name }}</td>
+            <td>{{ user.Email }}</td>
+            <td>{{ user.Contact }}</td>
+            <td>
+                <a href="/showProducts/?User_id={{ user.id }}"><span class="glyphicon glyphicon-check">Products</span></a>
+            </td>
+            <td>
+                <a href="/editUser/{{ user.id }}"><span class="glyphicon glyphicon-pencil" >Edit</span></a>
+            </td>
+            <td>
+                <button class="glyphicon glyphicon-exclamation-sign" onclick="deleteUser({{ user.id }})">Delete</button>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <center><a href="/addUser" class="btn btn-primary">Add New Record</a></center>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!--    Pagination   -->
+    <center>
+        {% if users.has_other_pages %}
+        <ul class="pagination">
+            {% if users.has_previous %}
+                <li><a href="?page={{ users.previous_page_number }}&sort={{sorts}}{% if desc %}&desc=true&sort={{sorts}}{% endif %}{% if q %}&q={{q}}{% endif %}">&laquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for i in users.paginator.page_range %}
+                {% if users.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% else %}
+                    <li><a href="?page={{ i }}&sort={{sorts}}{% if desc %}&desc=true&sort={{sorts}}{% endif %}{% if q %}&q={{q}}{% endif %}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if users.has_next %}
+                <li><a href="?page={{ users.next_page_number }}&sort={{sorts}}{% if desc %}&desc=true&sort={{sorts}}{% endif %}{% if q %}&q={{q}}{% endif %}">&raquo;</a></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </center>
+</div>
+
+{% endblock content %}
+
+
