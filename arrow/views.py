@@ -90,7 +90,7 @@ def showUsers(request):
         # Pagination
         page = request.GET.get('page', 1)
 
-        paginator = Paginator(users, 3)
+        paginator = Paginator(users, 8)
         try:
             users = paginator.page(page)
         except PageNotAnInteger:
@@ -168,7 +168,7 @@ def showProducts(request):
         # Pagination
         page = request.GET.get('page', 1)
 
-        paginator = Paginator(products, 3)
+        paginator = Paginator(products, 8)
         try:
             products = paginator.page(page)
         except PageNotAnInteger:
