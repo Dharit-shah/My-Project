@@ -58,6 +58,6 @@ Creating a virtual python environment dedicated for this application is strongly
 
 5. Run following django **management** commands.
 
-        $ python manage.py Makemigrations     
+        $ python manage.py makemigrations     
         $ python manage.py migrate     
 
