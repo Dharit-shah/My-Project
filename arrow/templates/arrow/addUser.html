@@ -2,6 +2,33 @@
 {% load i18n  static %}
 
 
+{% block header %}
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Arrow</a>
+      </div>
+        {% if user.is_authenticated %}
+          <ul class="nav navbar-nav">
+              <li><a href="/showUsers">Users</a></li>
+          </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+        {% else %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          </ul>
+        {% endif %}
+    </div>
+  </nav>
+
+{% endblock header %}
+
+
 {% block content %}
         <form method="POST" class="post-form" action="/addUser">
             {% csrf_token %}

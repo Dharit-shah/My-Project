@@ -119,24 +119,32 @@ def showUsers(request):
 
 
 def editUser(request, id):
-    user = User.objects.get(id=id)
-    return render(request, 'arrow/editUser.html', {'user': user})
+    if request.user.is_authenticated:
+        user = User.objects.get(id=id)
+        return render(request, 'arrow/editUser.html', {'user': user, 'id': id})
+    else:
+        return redirect('/')
 
 
 def updateUser(request, id):
-    user = User.objects.get(id=id)
-    form = UserForm(request.POST, instance=user)
-    if form.is_valid():
-        form.save()
-        return redirect("/showUsers")
-    return render(request, 'arrow/editUser.html', {'user': user})
+    if request.user.is_authenticated:
+        user = User.objects.get(id=id)
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("/showUsers")
+        return render(request, 'arrow/editUser.html', {'user': user})
+    else:
+        return redirect('/')
 
 
 def destroyUser(request, id):
-    user = User.objects.get(id=id)
-    user.delete()
-    return redirect("/showUsers")
-
+    if request.user.is_authenticated:
+        user = User.objects.get(id=id)
+        user.delete()
+        return redirect("/showUsers")
+    else:
+        return redirect('/')
 
 # Product
 def addProduct(request):
@@ -156,35 +164,54 @@ def addProduct(request):
 def showProducts(request):
     if request.user.is_authenticated:
         products = Product.objects.all()
-        return render(request, 'arrow/showProducts.html', {'products': products})
+
+        # Pagination
+        page = request.GET.get('page', 1)
+
+        paginator = Paginator(products, 3)
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
+        return render(request, "arrow/showProducts.html", {'products': products})
+
     else:
         return redirect('/')
 
 
 def editProduct(request, id):
-    product = Product.objects.get(id=id)
-    return render(request, 'arrow/editProduct.html', {'product': product})
+    if request.user.is_authenticated:
+        product = Product.objects.get(id=id)
+        return render(request, 'arrow/editProduct.html', {'product': product, 'id': id})
+    else:
+        return redirect('/')
 
 
 def updateProduct(request, id):
-    product = Product.objects.get(id=id)
+    if request.user.is_authenticated:
+        product = Product.objects.get(id=id)
 
-    if request.method == "POST":
-        form = ProductForm(request.POST, instance=product)
+        if request.method == "POST":
+            form = ProductForm(request.POST, instance=product)
+            if form.is_valid():
+                form.save()
+                return redirect("/showProducts")
+        form = ProductForm(instance=product)
 
-        if form.is_valid():
-            form.save()
-            return redirect("/showProducts")
-
-    form = ProductForm(instance=product)
-
-    return render(request, 'arrow/editProduct.html', {'product': form, 'id': id})
-
+        return render(request, 'arrow/editProduct.html', {'product': form, 'id': id})
+    else:
+        return redirect('/')
 
 def destroyProduct(request, id):
-    product = Product.objects.get(id=id)
-    product.delete()
-    return redirect("/showProducts")
+    if request.user.is_authenticated:
+        product = Product.objects.get(id=id)
+        product.delete()
+        return redirect("/showProducts")
+    else:
+        return redirect('/')
 
 
 # Rest Framework
