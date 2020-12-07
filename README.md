@@ -61,3 +61,6 @@ Creating a virtual python environment dedicated for this application is strongly
         $ python manage.py makemigrations     
         $ python manage.py migrate     
 
+6. Run following command to start the **server**.
+
+        $ python manage.py runserver     
